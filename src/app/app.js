@@ -9,11 +9,11 @@ class App extends React.Component {
 
     render(){
         return (
-          <div>
+          <section>
               <h1>{this.state.title}</h1>
-          </div>
+          </section>
         );
     }
 }
 
-export default  App;
+export default App;

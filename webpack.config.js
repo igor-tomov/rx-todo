@@ -2,7 +2,7 @@ module.exports = {
     entry: __dirname + '/src/client',
 
     output: {
-        path: __dirname + '/public/js/bundles/',
+        path: __dirname + '/public/assets/js/dist/',
         filename: "todomvc.bundle.js"
     },
 
