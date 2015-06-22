@@ -1,17 +1,25 @@
 import Rx from 'rx/dist/rx.lite';
 import {Record, List} from 'immutable';
-import todoConst from '../constants/todos.js'
+import todoConst from '../constants/todos'
 
-let createTodoStore = dispatcher =>
+
+// define store data structure
+var TodoListMap = Record({
+  todoItems: List(),
+  todoText: ""
+});
+
+var TodoItemMap = Record({
+  id: null,
+  text: '',
+  completed: false
+});
+
+export default ( dispatcher, initialStore = {} ) =>
   Rx.Observable.create( observer => {
 
-    // define store data
-    var store = Record({
-      todoItems: List(),
-      todoText: "",
-      doneItems: 0,
-      checkAll: false
-    });
+    // instantiate store data
+    var store = TodoListMap( initialStore );
 
     // observe dispatcher messages
     dispatcher.subscribe( payload => {
@@ -19,6 +27,10 @@ let createTodoStore = dispatcher =>
       switch ( payload.action ){
 
         case todoConst.TODO_CREATE:
+          break;
+
+        case 'TEST':
+          console.log( "Store is received action", payload );
           break;
 
         default:
@@ -31,5 +43,3 @@ let createTodoStore = dispatcher =>
     // clean up store data in case of disposing
     return () => store = null
   });
-
-export default createTodoStore;

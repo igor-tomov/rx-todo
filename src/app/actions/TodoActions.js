@@ -1,7 +1,5 @@
-import Rx from '../../../node_modules/rx/dist/rx.lite.js'
-
-let eventStream = new Rx.Subject();
+import dispatcher from '../dispatchers/TodoDispatcher'
 
 export default {
-  eventStream: eventStream
+  testify: ( data ) => dispatcher.dispatch({ action: 'TEST', data: data })
 }
