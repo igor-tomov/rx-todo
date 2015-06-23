@@ -1,45 +1,45 @@
 import Rx from 'rx/dist/rx.lite';
 import {Record, List} from 'immutable';
-import todoConst from '../constants/todos'
-
+import todoConst from '../constants/todos';
+import dispatcher from '../dispatchers/TodoDispatcher';
 
 // define store data structure
-var TodoListMap = Record({
+let TodoListMap = Record({
   todoItems: List(),
   todoText: ""
 });
 
-var TodoItemMap = Record({
+let TodoItemMap = Record({
   id: null,
   text: '',
   completed: false
 });
 
-export default ( dispatcher, initialStore = {} ) =>
+export default ( initialStore = {} ) =>
   Rx.Observable.create( observer => {
 
     // instantiate store data
     var store = TodoListMap( initialStore );
 
     // observe dispatcher messages
-    dispatcher.subscribe( payload => {
+    var subscription = dispatcher.subscribe( payload => {
 
       switch ( payload.action ){
 
         case todoConst.TODO_CREATE:
           break;
 
-        case 'TEST':
-          console.log( "Store is received action", payload );
-          break;
-
         default:
           return;
       }
 
-      observer.onNext( store ); // todo: convert store data to plain object
+      observer.onNext( store.toJS() );
     });
 
-    // clean up store data in case of disposing
-    return () => store = null
+    // Unsubscribe from dispatcher and clean up store data in case of disposing
+    return () => {
+      console.log( "dispose: ", this );
+      subscription.dispose();
+      store = null;
+    }
   });
