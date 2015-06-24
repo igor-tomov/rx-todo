@@ -13,16 +13,12 @@ let TodoApp = React.createClass({
   mixins: [ StoreListener( createTodoStore ) ],
 
   getInitialState(){
-    return TodoListMap();
-  },
-
-  componentWillMount: function(){
-    TodoActions.create( 'Do some job' );
+    return this.props.todos || TodoListMap().toJS();
   },
 
   render(){
     return (
-        <section>
+        <section className='todoapp'>
           <TodoHeader {...this.state} title={config.title} />
         </section>
     );

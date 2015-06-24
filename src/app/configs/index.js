@@ -1,4 +1,4 @@
 export default {
-  title: 'Rx-Flux Todo',
+  title: 'Rx-Flux',
   storageName: 'rx-flux-todo'
 }

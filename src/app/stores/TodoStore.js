@@ -20,7 +20,7 @@ let createTodoStore = ( initialStore = {} ) =>
   Rx.Observable.create( observer => {
 
     // instantiate store data
-    var store = TodoListMap( initialStore );
+    var store = new TodoListMap( initialStore );
 
     // observe dispatcher messages
     var subscription = dispatcher.subscribe( payload => {
