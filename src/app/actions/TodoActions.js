@@ -1,5 +1,6 @@
-import dispatcher from '../dispatchers/TodoDispatcher'
+import dispatcher from '../dispatchers/TodoDispatcher';
+import TodoConst from '../constants/TodoConststants';
 
 export default {
-  testify: ( data ) => dispatcher.dispatch({ action: 'TEST', data: data })
+  create: ( text ) => dispatcher.dispatch({ action: TodoConst.TODO_CREATE, text: text })
 }

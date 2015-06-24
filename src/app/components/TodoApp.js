@@ -4,18 +4,26 @@ import config from '../configs';
 
 import TodoHeader from './TodoHeader';
 
-import TodoStoreCreator from '../stores/TodoStore';
-import actions from '../actions/TodoActions';
+import {TodoListMap, createTodoStore} from '../stores/TodoStore';
+import TodoActions from '../actions/TodoActions';
 
 
 let TodoApp = React.createClass({
 
-  mixins: [ StoreListener( TodoStoreCreator ) ],
+  mixins: [ StoreListener( createTodoStore ) ],
+
+  getInitialState(){
+    return TodoListMap();
+  },
+
+  componentWillMount: function(){
+    TodoActions.create( 'Do some job' );
+  },
 
   render(){
     return (
         <section>
-          <TodoHeader {...this.state} />
+          <TodoHeader {...this.state} title={config.title} />
         </section>
     );
   }

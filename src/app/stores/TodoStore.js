@@ -1,6 +1,7 @@
 import Rx from 'rx/dist/rx.lite';
 import {Record, List} from 'immutable';
-import todoConst from '../constants/todos';
+import logger from 'logger';
+import todoConst from '../constants/TodoConststants';
 import dispatcher from '../dispatchers/TodoDispatcher';
 
 // define store data structure
@@ -15,7 +16,7 @@ let TodoItemMap = Record({
   completed: false
 });
 
-export default ( initialStore = {} ) =>
+let createTodoStore = ( initialStore = {} ) =>
   Rx.Observable.create( observer => {
 
     // instantiate store data
@@ -27,6 +28,7 @@ export default ( initialStore = {} ) =>
       switch ( payload.action ){
 
         case todoConst.TODO_CREATE:
+          logger.warn( 'TodoStore has consumed "TODO_CREATE" action', payload );
           break;
 
         default:
@@ -38,8 +40,9 @@ export default ( initialStore = {} ) =>
 
     // Unsubscribe from dispatcher and clean up store data in case of disposing
     return () => {
-      console.log( "dispose: ", this );
       subscription.dispose();
       store = null;
     }
   });
+
+export { TodoListMap, TodoItemMap, createTodoStore };

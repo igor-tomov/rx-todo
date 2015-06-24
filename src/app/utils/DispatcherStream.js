@@ -1,16 +1,24 @@
-import Rx from 'rx/dist/rx.lite'
+import Rx from 'rx/dist/rx.lite';
+import logger from 'logger';
 
 export default ( name = 'Untitled' ) => {
   var dispatcher = new Rx.Subject();
 
-  // just a syntax sugar
-  dispatcher.dispatch = dispatcher.onNext;
+  dispatcher.dispatch = payload => {
 
-  // Omit dispatches without action type
-  //dispatcher = dispatcher.filter( data => data.action );
+    // Omit dispatches without action type
+    if ( ! payload.action ){
+      logger.warn( `${name} dispatcher: payload isn't contain action type, payload: `, payload );
+      return;
+    }
 
-  // logging dispatched messages in DEV environment
-  //dispatcher = dispatcher.do( data => console.debug( `${name} dispatcher: action "${data.action}" is dispatching` ) );
+    if ( ENV === 'development' ) {
+      // logging dispatched messages
+      logger.debug(`${name} dispatcher: action "${payload.action}" is dispatched`, payload);
+    }
+
+    dispatcher.onNext( payload );
+  };
 
   return dispatcher;
 };
