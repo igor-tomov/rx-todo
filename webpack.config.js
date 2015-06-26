@@ -20,7 +20,8 @@ module.exports = {
           'react',
           'rx/dist/rx.lite',
           'immutable',
-          'keymirror'
+          'keymirror',
+          'classnames'
         ],
         app: __dirname + '/src/client'
     },

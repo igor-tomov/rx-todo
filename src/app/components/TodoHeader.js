@@ -2,23 +2,25 @@ import React from 'react/addons';
 import TodoTextInput from './TodoTextInput';
 import TodoBox from './TodoBox';
 
-class TodoHeader extends React.Component {
+var propTypes = React.PropTypes;
 
-  constructor(props){
-    super(props);
-  }
+export default React.createClass({
+
+  propTypes: {
+    title: propTypes.string.isRequired,
+    todoText: propTypes.string.isRequired,
+    todoItems: propTypes.array.isRequired
+  },
 
   render(){
-    var { title, text, todoItems } = this.props;
+    var { title, todoText, todoItems } = this.props;
 
     return (
       <header id='header'>
         <h1>{title}</h1>
-        <TodoTextInput text={text} />
+        <TodoTextInput text={todoText} />
         <TodoBox todoItems={todoItems} />
       </header>
     );
   }
-}
-
-export default TodoHeader;
+});
