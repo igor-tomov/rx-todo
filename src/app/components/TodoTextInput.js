@@ -3,24 +3,23 @@ import React from 'react/addons';
 export default React.createClass({
 
   propTypes: {
-    text: React.PropTypes.string.isRequired
+    text: React.PropTypes.string.isRequired,
+    onTextUpdate: React.PropTypes.func.isRequired
   },
 
-  onKeyDown(){},
-
-  onChange(){},
-
   render(){
+    var {text, onTextUpdate} = this.props;
+
     return (
       <input
         id='new-todo'
         type='text'
         name='todo-input'
-        value={this.props.text}
+        value={text}
         className='new-todo'
         placeholder='What needs to be done'
-        onKeyDown={this.onKeyDown}
-        onChange={this.onChange}
+        onKeyDown={onTextUpdate}
+        onChange={onTextUpdate}
       />
     );
   }

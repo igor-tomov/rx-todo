@@ -16,6 +16,9 @@ let TodoItemMap = Record({
   completed: false
 });
 
+let getUniqueId = () => (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+
+
 let createTodoStore = ( initialStore = {} ) =>
   Rx.Observable.create( observer => {
 
@@ -24,11 +27,34 @@ let createTodoStore = ( initialStore = {} ) =>
 
     // observe dispatcher messages
     var subscription = dispatcher.subscribe( payload => {
+      var todoItems, newItem, id;
 
       switch ( payload.action ){
 
         case todoConst.TODO_CREATE:
-          logger.warn( 'TodoStore has consumed "TODO_CREATE" action', payload );
+          todoItems = store.get( 'todoItems' ),
+          newItem   = TodoItemMap({ id: getUniqueId(), text: payload.text });
+
+          store = store.set( 'todoItems', todoItems.push( newItem ) )
+                       .set( 'todoText', '' );
+          break;
+
+
+        case todoConst.TODO_UPDATE_TEXT:
+          store = store.set( 'todoText', payload.text );
+          break;
+
+
+        case todoConst.TODO_TOGGLE_COMPLETE:
+          id        = payload.id;
+          todoItems = store.get( 'todoItems' );
+
+          todoItems = todoItems.map( item =>
+              item.id === id ? item.set( 'completed', !! item.get( 'completed' ) ) : item
+          );
+
+          store = store.set( 'todoItems', todoItems );
+
           break;
 
         default:

@@ -2,10 +2,13 @@ import React from 'react/addons';
 import TodoItem from './TodoItem';
 import TodoAction from '../actions/TodoActions';
 
+var propTypes = React.PropTypes;
+
 export default React.createClass({
 
   propTypes: {
-    todoItems: React.PropTypes.array.isRequired
+    todoItems: propTypes.array.isRequired,
+    onToggleComplete: propTypes.array.isRequired
   },
 
   _onToggleCompleteAll(){
@@ -13,21 +16,26 @@ export default React.createClass({
   },
 
   render(){
-    var {todoItems} = this.props;
+    var {todoItems, onToggleComplete} = this.props;
+
+    if ( ! todoItems.length ){
+      return null;
+    }
 
     var allCompleted = todoItems.every( item => item.completed ),
-        todoList     = todoItems.map( item => <TodoItem {...item} /> );
+        todoList     = todoItems.map( item => <TodoItem key={item.id} {...item} onToggleComplete={onToggleComplete}/> );
 
     return (
-      <section id='main'>
+      <section id='main' className='main'>
         <input
           id='toggle-all'
+          className='toggle-all'
           type='checkbox'
           checked={allCompleted ? 'checked' : ''}
           onChange={this._onToggleCompleteAll}
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
-        <ul id="todo-list">{todoList}</ul>
+        <ul id="todo-list" className='todo-list'>{todoList}</ul>
       </section>
     );
   }
