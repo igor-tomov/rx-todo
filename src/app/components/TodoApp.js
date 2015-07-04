@@ -7,8 +7,7 @@ import TodoBox from './TodoBox';
 
 import {TodoListMap, createTodoStore} from '../stores/TodoStore';
 import TodoActions from '../actions/TodoActions';
-
-var ENTER_KEY_CODE = 13;
+import KeyCodes from '../constants/KeyCodeConstants';
 
 export default React.createClass({
 
@@ -19,18 +18,30 @@ export default React.createClass({
   },
 
   // Todos event handlers
-  onInputTextUpdate( event ){
-    var text = event.target.value;
-
+  onInputTextUpdate( text ){
     TodoActions.updateText( text );
+  },
 
-    if ( event.which === ENTER_KEY_CODE && text.trim() ){
-      TodoActions.create( text.trim() );
-    }
+  onInputTextEnter( text ){
+    var trimmedText = text.trim();
+
+    trimmedText && TodoActions.create( trimmedText );
   },
 
   onTodoItemToggleComplete( id ){
     TodoActions.toggleComplete( id );
+  },
+
+  onToggleCompleteAll(){
+    TodoActions.toggleCompleteAll();
+  },
+
+  onTodoItemUpdate( id, text ){
+    TodoActions.updateItem( id, text );
+  },
+
+  onTodoItemDestroy( id ){
+    TodoActions.destroy( id );
   },
 
   render(){
@@ -40,10 +51,14 @@ export default React.createClass({
             title={config.title}
             todoText={this.state.todoText}
             onTextUpdate={this.onInputTextUpdate}
+            onTextEnter={this.onInputTextEnter}
           />
           <TodoBox
             todoItems={this.state.todoItems}
             onToggleComplete={this.onTodoItemToggleComplete}
+            onToggleCompleteAll={this.onToggleCompleteAll}
+            onTodoItemUpdate={this.onTodoItemUpdate}
+            onTodoItemDestroy={this.onTodoItemDestroy}
           />
         </section>
     );

@@ -9,16 +9,23 @@ export default React.createClass({
   propTypes: {
     title: propTypes.string.isRequired,
     todoText: propTypes.string.isRequired,
-    onTextUpdate: propTypes.func.isRequired
+    onTextEnter: propTypes.func.isRequired,
+    onTextUpdate: propTypes.func
   },
 
   render(){
-    var { title, todoText, onTextUpdate } = this.props;
+    var { title, todoText, onTextUpdate, onTextEnter } = this.props;
 
     return (
       <header id='header'>
         <h1>{title}</h1>
-        <TodoTextInput text={todoText} onTextUpdate={onTextUpdate} />
+        <TodoTextInput
+          id='new-todo'
+          className='new-todo'
+          value={todoText}
+          onEnter={onTextEnter}
+          onUpdate={onTextUpdate}
+        />
       </header>
     );
   }

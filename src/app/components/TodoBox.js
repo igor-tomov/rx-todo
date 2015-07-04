@@ -8,22 +8,32 @@ export default React.createClass({
 
   propTypes: {
     todoItems: propTypes.array.isRequired,
-    onToggleComplete: propTypes.array.isRequired
+    onToggleComplete: propTypes.func.isRequired,
+    onToggleCompleteAll: propTypes.func.isRequired,
+    onTodoItemDestroy: propTypes.func.isRequired
   },
 
   _onToggleCompleteAll(){
-    TodoAction.toggleCompleteAll();
+    this.props.onToggleCompleteAll();
   },
 
   render(){
-    var {todoItems, onToggleComplete} = this.props;
+    var {todoItems, onToggleComplete, onTodoItemUpdate, onTodoItemDestroy} = this.props;
 
     if ( ! todoItems.length ){
       return null;
     }
 
-    var allCompleted = todoItems.every( item => item.completed ),
-        todoList     = todoItems.map( item => <TodoItem key={item.id} {...item} onToggleComplete={onToggleComplete}/> );
+    var allCompleted = todoItems.every( item => item.completed );
+
+    var todoList = todoItems.map( item =>
+          <TodoItem
+            key={item.id} {...item}
+            onToggleComplete={onToggleComplete}
+            onItemDestroy={onTodoItemDestroy}
+            onItemUpdate={onTodoItemUpdate}
+          />
+        );
 
     return (
       <section id='main' className='main'>

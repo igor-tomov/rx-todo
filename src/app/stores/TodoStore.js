@@ -5,34 +5,68 @@ import todoConst from '../constants/TodoConststants';
 import dispatcher from '../dispatchers/TodoDispatcher';
 
 // define store data structure
-let TodoListMap = Record({
+var TodoListMap = Record({
   todoItems: List(),
   todoText: ""
 });
 
-let TodoItemMap = Record({
+var TodoItemMap = Record({
   id: null,
   text: '',
   completed: false
 });
 
-let getUniqueId = () => (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+
+var getUniqueId = () => (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
 
 
-let createTodoStore = ( initialStore = {} ) =>
+var createTodoStore = ( initialStore = {} ) =>
   Rx.Observable.create( observer => {
 
     // instantiate store data
     var store = new TodoListMap( initialStore );
 
-    // observe dispatcher messages
+
+    // ---------------- store operations ----------------
+    var operations = {
+      toggleCompleteAll: () => {
+        var todoItems    = store.get( 'todoItems' ),
+            allCompleted = todoItems.every( item => item.completed );
+
+        todoItems = todoItems.map( item => item.set( 'completed', ! allCompleted ) );
+
+        store = store.set( 'todoItems', todoItems );
+      },
+
+
+
+      updateItem: ( id, text ) => {
+        var todoItems = store.get( 'todoItems' ).map( item =>
+            item.id === id ? item.set( 'text', text ) : item
+        );
+
+        store = store.set( 'todoItems', todoItems );
+      },
+
+
+
+      destroy: id => {
+        var todoItems = store.get( 'todoItems' );
+
+        todoItems = todoItems.filter( item => item.id !== id );
+        store     = store.set( 'todoItems', todoItems );
+      }
+    };
+
+
+    // ---------------- observe dispatcher messages ----------------
     var subscription = dispatcher.subscribe( payload => {
       var todoItems, newItem, id;
 
       switch ( payload.action ){
 
         case todoConst.TODO_CREATE:
-          todoItems = store.get( 'todoItems' ),
+          todoItems = store.get( 'todoItems' );
           newItem   = TodoItemMap({ id: getUniqueId(), text: payload.text });
 
           store = store.set( 'todoItems', todoItems.push( newItem ) )
@@ -40,7 +74,7 @@ let createTodoStore = ( initialStore = {} ) =>
           break;
 
 
-        case todoConst.TODO_UPDATE_TEXT:
+        case todoConst.TODO_UPDATE_INPUT_TEXT:
           store = store.set( 'todoText', payload.text );
           break;
 
@@ -50,12 +84,28 @@ let createTodoStore = ( initialStore = {} ) =>
           todoItems = store.get( 'todoItems' );
 
           todoItems = todoItems.map( item =>
-              item.id === id ? item.set( 'completed', !! item.get( 'completed' ) ) : item
+              item.id === id ? item.set( 'completed', ! item.get( 'completed' ) ) : item
           );
 
           store = store.set( 'todoItems', todoItems );
 
           break;
+
+
+        case todoConst.TODO_TOGGLE_COMPLETE_ALL:
+          operations.toggleCompleteAll();
+          break;
+
+
+        case todoConst.TODO_UPDATE_ITEM:
+          operations.updateItem( payload.id, payload.text );
+          break;
+
+
+        case todoConst.TODO_DESTROY:
+          operations.destroy( payload.id );
+          break;
+
 
         default:
           return;

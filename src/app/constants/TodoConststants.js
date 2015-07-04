@@ -7,7 +7,8 @@ const todos = keyMirror({
   TODO_DESTROY_COMPLETED: null,
   TODO_TOGGLE_COMPLETE: null,
   TODO_TOGGLE_COMPLETE_ALL: null,
-  TODO_UPDATE_TEXT: null
+  TODO_UPDATE_INPUT_TEXT: null,
+  TODO_UPDATE_ITEM: null
 });
 
 export default todos;
