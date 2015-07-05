@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import TodoHeader from './TodoHeader';
 import TodoBox from './TodoBox';
+import TodoFooter from './TodoFooter';
 
 
 
@@ -25,6 +26,11 @@ export default React.createClass({
             onToggleCompleteAll={props.onToggleCompleteAll}
             onTodoItemUpdate={props.onTodoItemUpdate}
             onTodoItemDestroy={props.onTodoItemDestroy}
+          />
+          <TodoFooter
+            todoItems={props.todoItems}
+            allUncompleted={props.allUncompleted}
+            onClearCompleted={props.onClearCompleted}
           />
         </section>
     );

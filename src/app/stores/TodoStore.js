@@ -29,6 +29,7 @@ var createTodoStore = ( initialStore = {} ) =>
 
     // ---------------- store operations ----------------
     var operations = {
+
       toggleCompleteAll: () => {
         var todoItems    = store.get( 'todoItems' ),
             allCompleted = todoItems.every( item => item.completed );
@@ -54,6 +55,13 @@ var createTodoStore = ( initialStore = {} ) =>
         var todoItems = store.get( 'todoItems' );
 
         todoItems = todoItems.filter( item => item.id !== id );
+        store     = store.set( 'todoItems', todoItems );
+      },
+
+      clearCompleted: () => {
+        var todoItems = store.get( 'todoItems' );
+
+        todoItems = todoItems.filter( item => ! item.completed );
         store     = store.set( 'todoItems', todoItems );
       }
     };
@@ -106,6 +114,10 @@ var createTodoStore = ( initialStore = {} ) =>
           operations.destroy( payload.id );
           break;
 
+
+        case todoConst.TODO_CLEAR_COMPLETED:
+          operations.clearCompleted();
+          break;
 
         default:
           return;

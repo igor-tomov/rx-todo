@@ -22,41 +22,18 @@ export default React.createClass({
 
 
   callbacks: {
-    onInputTextUpdate( text ){
-      TodoActions.updateText( text );
-    },
-
-
-
     onInputTextEnter( text ){
       var trimmedText = text.trim();
 
       trimmedText && TodoActions.create( trimmedText );
     },
 
-
-
-    onTodoItemToggleComplete( id ){
-      TodoActions.toggleComplete( id );
-    },
-
-
-
-    onToggleCompleteAll(){
-      TodoActions.toggleCompleteAll();
-    },
-
-
-
-    onTodoItemUpdate( id, text ){
-      TodoActions.updateItem( id, text );
-    },
-
-
-
-    onTodoItemDestroy( id ){
-      TodoActions.destroy( id );
-    }
+    onInputTextUpdate: text => TodoActions.updateText( text ),
+    onTodoItemToggleComplete: id => TodoActions.toggleComplete( id ),
+    onToggleCompleteAll: () => TodoActions.toggleCompleteAll(),
+    onTodoItemUpdate: ( id, text ) => TodoActions.updateItem( id, text ),
+    onTodoItemDestroy: id => TodoActions.destroy( id ),
+    onClearCompleted: () => TodoActions.clearCompleted()
   },
 
 
