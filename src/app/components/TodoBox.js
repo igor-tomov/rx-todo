@@ -18,17 +18,16 @@ export default React.createClass({
   },
 
   render(){
-    var {todoItems, onToggleComplete, onTodoItemUpdate, onTodoItemDestroy} = this.props;
+    var {todoItems, allCompleted, onToggleComplete, onTodoItemUpdate, onTodoItemDestroy} = this.props;
 
     if ( ! todoItems.length ){
       return null;
     }
 
-    var allCompleted = todoItems.every( item => item.completed );
-
     var todoList = todoItems.map( item =>
           <TodoItem
-            key={item.id} {...item}
+            {...item}
+            key={item.id}
             onToggleComplete={onToggleComplete}
             onItemDestroy={onTodoItemDestroy}
             onItemUpdate={onTodoItemUpdate}

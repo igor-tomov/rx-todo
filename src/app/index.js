@@ -1,2 +1,2 @@
-import TodoApp from './components/TodoApp';
+import TodoApp from './components/TodoAppContainer';
 export default TodoApp;
