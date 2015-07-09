@@ -13,8 +13,14 @@ export default React.createClass({
     onTextUpdate: propTypes.func
   },
 
+  _onTextEnter( text ){
+    var trimmedText = text.trim();
+
+    trimmedText && this.props.onTextEnter( trimmedText );
+  },
+
   render(){
-    var { title, todoText, onTextUpdate, onTextEnter } = this.props;
+    var { title, todoText, onTextUpdate } = this.props;
 
     return (
       <header id='header'>
@@ -23,7 +29,7 @@ export default React.createClass({
           id='new-todo'
           className='new-todo'
           value={todoText}
-          onEnter={onTextEnter}
+          onEnter={this._onTextEnter}
           onUpdate={onTextUpdate}
         />
       </header>

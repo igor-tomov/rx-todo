@@ -33,12 +33,7 @@ export default React.createClass({
 
 
   callbacks: {
-    onInputTextEnter( text ){
-      var trimmedText = text.trim();
-
-      trimmedText && TodoActions.create( trimmedText );
-    },
-
+    onInputTextEnter: text => TodoActions.create( text ),
     onInputTextUpdate: text => TodoActions.updateText( text ),
     onTodoItemToggleComplete: id => TodoActions.toggleComplete( id ),
     onToggleCompleteAll: () => TodoActions.toggleCompleteAll(),
