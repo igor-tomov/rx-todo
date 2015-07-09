@@ -4,6 +4,8 @@ import logger from 'logger';
 import todoConst from '../constants/TodoConststants';
 import dispatcher from '../dispatchers/TodoDispatcher';
 
+
+
 // define store data structure
 var TodoListMap = Record({
   todoItems: List(),

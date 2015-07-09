@@ -21,6 +21,8 @@ export default React.createClass({
           />
           <TodoBox
             todoItems={props.todoItems}
+            todoFilterList={props.todoFilterList}
+            todoFilter={props.todoFilter}
             allCompleted={props.allCompleted}
             onToggleComplete={props.onTodoItemToggleComplete}
             onToggleCompleteAll={props.onToggleCompleteAll}
@@ -29,6 +31,8 @@ export default React.createClass({
           />
           <TodoFooter
             todoItems={props.todoItems}
+            todoFilterList={props.todoFilterList}
+            todoFilter={props.todoFilter}
             allUncompleted={props.allUncompleted}
             onClearCompleted={props.onClearCompleted}
           />

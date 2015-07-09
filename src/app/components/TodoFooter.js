@@ -1,19 +1,28 @@
 import React from 'react/addons';
+import classnames from 'classnames';
+
 
 var propTypes = React.PropTypes;
+
 
 
 export default React.createClass({
 
   propTypes: {
     todoItems: propTypes.array.isRequired,
+    todoFilterList: propTypes.array.isRequired,
     allUncompleted: propTypes.bool.isRequired,
-    onClearCompleted: propTypes.func.isRequired
+    onClearCompleted: propTypes.func.isRequired,
+    todoFilter: propTypes.string
   },
+
+
 
   _onClearCompleted(){
     this.props.onClearCompleted();
   },
+
+
 
   _renderClearCompleted(){
     if ( ! this.props.allUncompleted ){
@@ -21,8 +30,28 @@ export default React.createClass({
     }
   },
 
+
+
+  _renderFilter(){
+    var { todoFilterList, todoFilter } = this.props;
+
+    return todoFilterList.map( ( item, i ) => {
+      var classes = classnames({ selected: item.value === todoFilter }),
+          path    = '#' + item.path;
+
+      return (
+          <li key={i}>
+            <a className={classes} href={path}>{item.title}</a>
+          </li>
+      );
+    });
+  },
+
+
+
   render(){
     var { todoItems, allUncompleted } = this.props;
+
     var todoItemsCount = todoItems.length,
         itemsLeft, itemsLeftPhrase;
 
@@ -41,7 +70,7 @@ export default React.createClass({
           <span className='todo-count'>
             <strong>{itemsLeft}</strong> {itemsLeftPhrase} left
           </span>
-          <ul className='filters'></ul>
+          <ul className='filters'>{this._renderFilter()}</ul>
           {this._renderClearCompleted()}
         </footer>
     );

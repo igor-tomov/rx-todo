@@ -21,6 +21,7 @@
     "morgan": "~1.5.3",
     "node-libs-browser": "~0.5.2",
     "react": "~0.13.3",
+    "react-router": "^0.13.3",
     "rx": "~2.5.3",
     "serve-favicon": "~2.2.1",
     "webpack": "~1.9.11"

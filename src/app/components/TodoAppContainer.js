@@ -1,6 +1,9 @@
 import React from 'react/addons';
 
 import config from '../configs';
+import filterList from '../configs/todoFilterList';
+import FilterConst from '../constants/TodoFilterConstants';
+
 import StoreListener from '../utils/mixins/StoreListener'
 import {TodoListMap, createTodoStore} from '../stores/TodoStore';
 import TodoActions from '../actions/TodoActions';
@@ -12,6 +15,14 @@ import TodoApp from './TodoApp';
 export default React.createClass({
 
   mixins: [ StoreListener( createTodoStore ) ],
+
+
+
+  getDefaultProps(){
+    return {
+      todoFilter: FilterConst.ALL
+    }
+  },
 
 
 
@@ -47,8 +58,10 @@ export default React.createClass({
     return (
         <TodoApp
           {...this.state}
-          title={config.title}
           {...this.callbacks}
+          title={config.title}
+          todoFilterList={filterList}
+          todoFilter={this.props.todoFilter}
           allCompleted={allCompleted}
           allUncompleted={allUncompleted}
         />
