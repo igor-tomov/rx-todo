@@ -20,6 +20,12 @@ export default React.createClass({
 
 
 
+  _saveTodo(){
+    TodoActions.saveToStorage( config.storageName, this.state );
+  },
+
+
+
   getDefaultProps(){
     return {
       todoFilter: FilterConst.ALL
@@ -29,17 +35,27 @@ export default React.createClass({
 
 
   getInitialState(){
-    return this.props.todos || TodoListMap().toJS();
+    return TodoListMap().toJS();
+  },
+
+
+
+  componentWillMount(){
+    TodoActions.init( config.storageName );
   },
 
 
 
   componentDidMount: function(){
+    // init autosave stream
     Rx.Observable
       .interval( config.autoSaveInterval )
-      .do( () => console.info( 'Todo autosave:', this.state ) )
+      .takeUntil( Rx.Observable.fromEvent( window, 'beforeunload' ) )
+      //.do( () => console.info( 'autosave:', this.state ) )
       .subscribe(
-        () => todoStorage.save( config.storageName, this.state )
+          this._saveTodo,
+          null,
+          this._saveTodo
       );
   },
 

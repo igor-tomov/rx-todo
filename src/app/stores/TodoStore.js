@@ -1,5 +1,5 @@
 import Rx from 'rx/dist/rx.lite';
-import {Record, List} from 'immutable';
+import Immutable, {Record, List} from 'immutable';
 import logger from 'logger';
 import todoConst from '../constants/TodoConststants';
 import dispatcher from '../dispatchers/TodoDispatcher';
@@ -32,9 +32,17 @@ var createTodoStore = ( initialStore = {} ) =>
     // ---------------- store operations ----------------
     var operations = {
 
+      init: ( todos ) => {
+        if ( todos ){
+          store = Immutable.fromJS( todos );
+        }
+      },
+
+
+
       toggleCompleteAll: () => {
         var todoItems    = store.get( 'todoItems' ),
-            allCompleted = todoItems.every( item => item.completed );
+            allCompleted = todoItems.every( item => item.get( 'completed' ) );
 
         todoItems = todoItems.map( item => item.set( 'completed', ! allCompleted ) );
 
@@ -45,7 +53,7 @@ var createTodoStore = ( initialStore = {} ) =>
 
       updateItem: ( id, text ) => {
         var todoItems = store.get( 'todoItems' ).map( item =>
-            item.id === id ? item.set( 'text', text ) : item
+            item.get('id') === id ? item.set( 'text', text ) : item
         );
 
         store = store.set( 'todoItems', todoItems );
@@ -56,14 +64,16 @@ var createTodoStore = ( initialStore = {} ) =>
       destroy: id => {
         var todoItems = store.get( 'todoItems' );
 
-        todoItems = todoItems.filter( item => item.id !== id );
+        todoItems = todoItems.filter( item => item.get('id') !== id );
         store     = store.set( 'todoItems', todoItems );
       },
+
+
 
       clearCompleted: () => {
         var todoItems = store.get( 'todoItems' );
 
-        todoItems = todoItems.filter( item => ! item.completed );
+        todoItems = todoItems.filter( item => ! item.get( 'completed' ) );
         store     = store.set( 'todoItems', todoItems );
       }
     };
@@ -74,6 +84,12 @@ var createTodoStore = ( initialStore = {} ) =>
       var todoItems, newItem, id;
 
       switch ( payload.action ){
+
+        case todoConst.TODO_INIT:
+          operations.init( payload.todos );
+          break;
+
+
 
         case todoConst.TODO_CREATE:
           todoItems = store.get( 'todoItems' );
@@ -94,7 +110,7 @@ var createTodoStore = ( initialStore = {} ) =>
           todoItems = store.get( 'todoItems' );
 
           todoItems = todoItems.map( item =>
-              item.id === id ? item.set( 'completed', ! item.get( 'completed' ) ) : item
+              item.get('id') === id ? item.set( 'completed', ! item.get( 'completed' ) ) : item
           );
 
           store = store.set( 'todoItems', todoItems );

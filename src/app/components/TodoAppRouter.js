@@ -7,7 +7,7 @@ import filterList from '../configs/todoFilterList';
 import TodoApp from './TodoAppContainer';
 
 
-export default ( mountNodeId, todos ) => {
+export default ( mountNodeId ) => {
 
   // define Router root app
   var TodoAppRouter = React.createClass({
@@ -26,7 +26,7 @@ export default ( mountNodeId, todos ) => {
 
 
     render(){
-      return <TodoApp todos={todos} todoFilter={this._getCurrentTodoFilter()} />;
+      return <TodoApp todoFilter={this._getCurrentTodoFilter()} />;
     }
   });
 
