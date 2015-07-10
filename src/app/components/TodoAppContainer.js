@@ -8,6 +8,8 @@ import StoreListener from '../utils/mixins/StoreListener'
 import {TodoListMap, createTodoStore} from '../stores/TodoStore';
 import TodoActions from '../actions/TodoActions';
 
+import todoStorage from '../services/todoStorageService';
+
 import TodoApp from './TodoApp';
 
 
@@ -28,6 +30,17 @@ export default React.createClass({
 
   getInitialState(){
     return this.props.todos || TodoListMap().toJS();
+  },
+
+
+
+  componentDidMount: function(){
+    Rx.Observable
+      .interval( config.autoSaveInterval )
+      .do( () => console.info( 'Todo autosave:', this.state ) )
+      .subscribe(
+        () => todoStorage.save( config.storageName, this.state )
+      );
   },
 
 

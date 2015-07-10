@@ -1,12 +1,14 @@
 export default ( StoreCreator ) => {
   return {
-    componentWillMount(){
-      var store = StoreCreator( this.props.initStore );
+    componentDidMount(){
+      var store = StoreCreator( this.getInitialStore && this.getInitialStore() );
 
       this.__storeSubscription__ = store.subscribe( this.onStoreChange );
     },
 
     onStoreChange( state ){
+      state = this.getStateFromStore ? this.getStateFromStore( state ) : state;
+
       this.setState( state );
     },
 
