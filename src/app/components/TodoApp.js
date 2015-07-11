@@ -8,6 +8,10 @@ import TodoFooter from './TodoFooter';
 
 export default React.createClass({
 
+  mixins: [React.addons.PureRenderMixin],
+
+
+
   render(){
     var props = this.props;
 

@@ -10,6 +10,10 @@ var propTypes = React.PropTypes;
 
 export default React.createClass({
 
+  mixins: [React.addons.PureRenderMixin],
+
+  
+
   propTypes: {
     id: propTypes.string.isRequired,
     text: propTypes.string.isRequired,

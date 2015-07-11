@@ -6,6 +6,10 @@ var propTypes = React.PropTypes;
 
 export default React.createClass({
 
+  mixins: [React.addons.PureRenderMixin],
+
+
+
   propTypes: {
     title: propTypes.string.isRequired,
     todoText: propTypes.string.isRequired,

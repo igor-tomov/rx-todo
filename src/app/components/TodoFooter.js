@@ -8,6 +8,10 @@ var propTypes = React.PropTypes;
 
 export default React.createClass({
 
+  mixins: [React.addons.PureRenderMixin],
+
+
+
   propTypes: {
     todoItems: propTypes.array.isRequired,
     todoFilterList: propTypes.array.isRequired,

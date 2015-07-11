@@ -141,6 +141,8 @@ var createTodoStore = ( initialStore = {} ) =>
           return;
       }
 
+
+
       observer.onNext( store.toJS() );
     });
 
