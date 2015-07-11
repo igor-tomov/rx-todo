@@ -5,7 +5,7 @@ import FilterConst from '../constants/TodoFilterConstants';
 
 
 var propTypes = React.PropTypes;
-
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 
 export default React.createClass({
@@ -82,7 +82,11 @@ export default React.createClass({
           onChange={this._onToggleCompleteAll}
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
-        <ul id="todo-list" className='todo-list'>{this._renderTodoItems()}</ul>
+          <ul id="todo-list" className='todo-list'>
+            <ReactCSSTransitionGroup transitionName='todo-item'>
+              {this._renderTodoItems()}
+            </ReactCSSTransitionGroup>
+          </ul>
       </section>
     );
   }

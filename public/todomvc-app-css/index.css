@@ -376,3 +376,25 @@ html .clear-completed:active {
 		bottom: 10px;
 	}
 }
+
+.todo-item-enter {
+	opacity: 0.01;
+	height: 0;
+	transition: all .4s ease-in;
+}
+
+.todo-item-enter.todo-item-enter-active {
+	height: 58px;
+	opacity: 1;
+}
+
+.todo-item-leave {
+	opacity: 1;
+	height: 58px;
+	transition: all .4s ease-out;
+}
+
+.todo-item-leave.todo-item-leave-active {
+	opacity: 0;
+	height: 0;
+}
