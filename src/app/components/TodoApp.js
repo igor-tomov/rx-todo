@@ -1,8 +1,7 @@
 import React from 'react/addons';
 
 import TodoHeader from './TodoHeader';
-import TodoBox from './TodoBox';
-import TodoFooter from './TodoFooter';
+import TodoContent from './TodoContent';
 
 
 
@@ -23,23 +22,7 @@ export default React.createClass({
             onTextUpdate={props.onInputTextUpdate}
             onTextEnter={props.onInputTextEnter}
           />
-          <TodoBox
-            todoItems={props.todoItems}
-            todoFilterList={props.todoFilterList}
-            todoFilter={props.todoFilter}
-            allCompleted={props.allCompleted}
-            onToggleComplete={props.onTodoItemToggleComplete}
-            onToggleCompleteAll={props.onToggleCompleteAll}
-            onTodoItemUpdate={props.onTodoItemUpdate}
-            onTodoItemDestroy={props.onTodoItemDestroy}
-          />
-          <TodoFooter
-            todoItems={props.todoItems}
-            todoFilterList={props.todoFilterList}
-            todoFilter={props.todoFilter}
-            allUncompleted={props.allUncompleted}
-            onClearCompleted={props.onClearCompleted}
-          />
+          <TodoContent {...props} />
         </section>
     );
   }

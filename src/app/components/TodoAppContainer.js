@@ -50,7 +50,7 @@ export default React.createClass({
     // init autosave stream
     Rx.Observable
       .interval( config.autoSaveInterval )
-      .takeUntil( Rx.Observable.fromEvent( window, 'beforeunload' ) )
+      .takeUntil( Rx.Observable.fromEvent( global, 'beforeunload' ) )
       //.do( () => console.info( 'autosave:', this.state ) )
       .subscribe(
           this._saveTodo,
@@ -74,11 +74,6 @@ export default React.createClass({
 
 
   render(){
-    var todoItems = this.state.todoItems;
-
-    var allCompleted   = todoItems.every( item => item.completed ),
-        allUncompleted = todoItems.every( item => ! item.completed );
-
     return (
         <TodoApp
           {...this.state}
@@ -86,8 +81,6 @@ export default React.createClass({
           title={config.title}
           todoFilterList={filterList}
           todoFilter={this.props.todoFilter}
-          allCompleted={allCompleted}
-          allUncompleted={allUncompleted}
         />
     );
   }

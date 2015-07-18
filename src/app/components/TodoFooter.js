@@ -54,14 +54,16 @@ export default React.createClass({
 
 
   render(){
-    var { todoItems, allUncompleted } = this.props;
+    var { todoItems } = this.props;
 
     var todoItemsCount = todoItems.length,
-        itemsLeft, itemsLeftPhrase;
+        allUncompleted, itemsLeft, itemsLeftPhrase;
 
     if ( ! todoItemsCount ){
       return null;
     }
+
+    allUncompleted = todoItems.every( item => ! item.completed );
 
     itemsLeft = allUncompleted ?
                     todoItemsCount :
